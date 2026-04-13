@@ -1,0 +1,1015 @@
+/* --- Global Variables & Pastel Theme --- */
+:root {
+    --bg-color: #F0EEEA; /* Lightest Lazy Days shade for background */
+    --text-main: #1A202C;
+    --text-muted: #718096;
+    
+    /* Lazy Days Palette */
+    --lazy-teal: #97B3AE;
+    --lazy-mint: #D2E0D3;
+    --lazy-pale: #F0DDD6;
+    --lazy-peach: #F2C3B9;
+    --lazy-taupe: #D6CBBF;
+    
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* Custom Hollow Circle Cursor (Hotspot is exactly in the center: 12 12) */
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="%2397B3AE" stroke-width="2"/><circle cx="12" cy="12" r="2" fill="%231A202C"/></svg>') 12 12, auto !important;
+}
+
+/* Make it slightly larger and fully dark when hovering over links/buttons */
+a:hover, button:hover, .view-cert-btn:hover, .slider-arrow:hover {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="12" fill="%231A202C" opacity="0.1" stroke="%231A202C" stroke-width="2"/><circle cx="14" cy="14" r="3" fill="%231A202C"/></svg>') 14 14, pointer !important;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* --- Floating Horizontal Navigation --- */
+.pill-nav {
+    /* 1. Naye CSS Variables add kiye for dynamic colors */
+    --indicator-bg: var(--text-main); 
+    --active-text: #ffffff;           
+
+    position: fixed;
+    bottom: 30px; 
+    left: 50%; 
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 50px; 
+    padding: 10px 15px;
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    /* Color transition ke liye smooth effect */
+    transition: --indicator-bg 0.4s ease, --active-text 0.4s ease; 
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: row; 
+    list-style: none;
+    align-items: center;
+    gap: 5px; 
+    position: relative; 
+    padding: 0;
+    margin: 0;
+}
+
+/* --- The Smooth Gliding Pill --- */
+.active-indicator {
+    position: absolute;
+    /* 2. Background ab CSS variable se aayega */
+    background-color: var(--indicator-bg); 
+    border-radius: 50px; 
+    z-index: 1; 
+    /* Size, position aur COLOR teeno smooth animate honge */
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.4s ease; 
+    pointer-events: none; 
+    top: 0; left: 0; width: 0; height: 0;
+}
+
+/* Individual Text Links */
+.nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 10px 20px; 
+    display: inline-block; 
+    text-align: center;
+    position: relative;
+    z-index: 2; 
+    background: transparent !important; 
+    transition: color 0.3s ease;
+    border-radius: 50px;
+}
+
+.nav-links a:hover {
+    color: var(--text-main);
+}
+
+/* When active, ONLY change the text color to white. */
+/* When active, force the text to be dark and slightly bolder for contrast */
+.nav-links a.active-link {
+    color: #000000 !important; /* Pure black text for maximum readability *//* Make it a bit thicker so it pops */
+}
+
+/* Mobile Responsiveness: Allow scrolling if the screen is too narrow */
+@media (max-width: 768px) {
+    .pill-nav {
+        width: 90%;
+        overflow-x: auto;
+        /* Hide scrollbar */
+        -ms-overflow-style: none;  
+        scrollbar-width: none;  
+    }
+    .pill-nav::-webkit-scrollbar { display: none; }
+    
+    .nav-links a {
+        white-space: nowrap; /* Prevents text from breaking onto two lines */
+    }
+}
+/* --- Home / Hero Section --- */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Abstract Background Element to replace the wireframe globe */
+.hero-graphic {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(188,219,236,0.4) 0%, rgba(250,250,250,0) 70%);
+    z-index: -1;
+    animation: pulse 8s infinite alternate ease-in-out;
+}
+
+.massive-text {
+    font-size: clamp(60px, 10vw, 130px);
+    font-weight: 800;
+    letter-spacing: -3px;
+    color: var(--text-main);
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.hero-subtext {
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+    color: var(--text-muted);
+    font-weight: 300;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.scroll-text {
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--text-muted), transparent);
+}
+
+/* --- Animations --- */
+.animate-slide-up {
+    animation: slideUp 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+@keyframes slideUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.8); opacity: 0.5; }
+    100% { transform: scale(1.2); opacity: 1; }
+}
+
+/* --- Global Modal Styles (Prep for next steps) --- */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 2000;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background-color: rgba(26, 32, 44, 0.8); /* Dark overlay */
+    backdrop-filter: blur(5px);
+}
+.modal-content {
+    background-color: var(--bg-color);
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 900px;
+    height: 80vh;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+}
+.close-modal {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    color: var(--text-muted);
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.close-modal:hover { color: var(--text-main); }
+
+/* --- About Section --- */
+.about-section {
+    padding: 10vh 10%;
+    max-width: 1400px; /* Wider container for editorial look */
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 40% 60%; /* Left side slightly smaller */
+    gap: 40px;
+    align-items: center;
+}
+
+/* Make it responsive for mobile devices */
+@media (max-width: 900px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+/* Left Column Typography */
+.sub-heading {
+    font-family: monospace;
+    letter-spacing: 4px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--pastel-pink); /* Subtle pastel touch */
+    padding-bottom: 5px;
+}
+
+.massive-heading {
+    font-size: clamp(60px, 8vw, 110px); /* Scales dynamically */
+    line-height: 1;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -3px;
+}
+
+/* Right Column Biography */
+.about-text {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.about-text p {
+    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    color: var(--text-muted);
+    line-height: 1.8;
+    font-weight: 400;
+}
+
+/* Make the first paragraph darker to draw the eye in */
+.about-text p:first-child {
+    color: var(--text-main);
+    font-weight: 500;
+    font-size: clamp(1.2rem, 2.5vw, 1.4rem);
+}
+
+/* --- Academic Journey Section --- */
+.academic-section {
+    padding: 10vh 10%;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.section-massive-title {
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -2px;
+    margin-bottom: 10px;
+}
+
+.carousel-wrapper {
+    position: relative;
+    margin-top: 40px;
+    width: 100%;
+}
+
+/* The Horizontal Track */
+.academic-track {
+    display: flex;
+    gap: 30px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 40px; /* Space for shadow */
+    cursor: grab;
+    /* Hide scrollbar for clean UI */
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+}
+
+.academic-track::-webkit-scrollbar {
+    display: none;
+}
+
+.academic-track.active {
+    cursor: grabbing;
+}
+
+/* Individual Cards */
+.academic-card {
+    min-width: 380px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 40px 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    border-top: 6px solid transparent;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+}
+
+@media (max-width: 600px) {
+    .academic-card {
+        min-width: 280px;
+        padding: 30px 20px;
+    }
+}
+
+.academic-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.card-date {
+    font-family: monospace;
+    font-weight: 700;
+    color: var(--pastel-blue);
+    letter-spacing: 2px;
+}
+
+.view-doc-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    filter: grayscale(100%);
+}
+
+.view-doc-btn:hover {
+    transform: scale(1.2);
+    filter: grayscale(0%);
+}
+
+.card-title {
+    font-size: 1.8rem;
+    color: var(--text-main);
+    margin-bottom: 15px;
+}
+
+.card-desc {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.section-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 40px;
+}
+
+.slider-arrows {
+    display: flex;
+    gap: 15px;
+    padding-bottom: 10px;
+}
+
+.slider-arrow {
+    background: transparent;
+    border: 2px solid var(--text-muted);
+    color: var(--text-muted);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider-arrow:hover {
+    border-color: var(--text-main);
+    color: var(--text-main);
+    background: var(--lazy-pale);
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .section-top-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+}
+
+/* Pastel Borders */
+.highlight-pink { border-top-color: var(--lazy-peach); }
+.highlight-blue { border-top-color: var(--lazy-teal); .card-date { color: var(--lazy-teal); } }
+.highlight-yellow { border-top-color: var(--lazy-taupe); .card-date { color: var(--lazy-taupe); } }
+.highlight-peach { border-top-color: var(--lazy-pale); .card-date { color: #d98a4c; } }
+.highlight-green { border-top-color: var(--lazy-mint); .card-date { color: #6b8f71; } }
+
+/* Modal body styling placeholder */
+.mock-doc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background: #f0f0f0;
+    border: 2px dashed #ccc;
+    color: var(--text-muted);
+}
+
+/* --- Certificates Section --- */
+.certificates-section {
+    padding: 100px 10%;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.section-subtext {
+    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    color: var(--text-muted);
+    margin-bottom: 60px;
+}
+
+.cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.cert-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 40px 30px 90px 30px; /* Extra bottom padding for the absolute button */
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.cert-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    border-color: var(--pastel-blue); 
+}
+
+.cert-year {
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+}
+
+.cert-title {
+    font-size: 1.5rem;
+    color: var(--text-main);
+    margin-bottom: 10px;
+    line-height: 1.3;
+    font-weight: 700;
+}
+
+.cert-issuer {
+    color: #4A5568; 
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    background: linear-gradient(120deg, var(--pastel-blue), var(--pastel-green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.cert-desc {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Floating View Button */
+.view-cert-btn {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    background: var(--bg-color);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    filter: grayscale(100%);
+}
+
+.view-cert-btn:hover {
+    background: var(--pastel-pink);
+    border-color: var(--pastel-pink);
+    transform: scale(1.1) rotate(10deg);
+    filter: grayscale(0%);
+}
+
+/* --- Selected Works (Projects) Section --- */
+.projects-section {
+    padding: 10vh 10%;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 60px;
+    margin-top: 50px;
+}
+
+@media (max-width: 768px) {
+    .works-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.work-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: transform 0.3s ease;
+}
+
+.work-card:hover {
+    transform: translateY(-5px);
+}
+
+/* --- Image Container & Styling --- */
+.work-image-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    display: block;
+    text-decoration: none;
+    background-color: #f4f4f4;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Make the image cover the box perfectly without stretching */
+.project-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures high-quality framing */
+    object-position: top; /* Keeps the top part (navbar) visible */
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Premium Zoom Effect on Hover */
+.work-image-container:hover .project-img {
+    transform: scale(1.05);
+}
+
+/* Hover Effects with Pastel Themes */
+.highlight-blue:hover .mock-image { background: var(--lazy-teal); color: #fff; }
+.highlight-peach:hover .mock-image { background: var(--lazy-peach); color: var(--text-main); }
+.highlight-pink:hover .mock-image { background: var(--lazy-pale); color: var(--text-main); }
+
+.work-image-container:hover .mock-image {
+    transform: scale(1.03);
+}
+
+/* Typography */
+.work-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.work-category {
+    font-family: monospace;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.work-title {
+    font-size: 2rem;
+    color: var(--text-main);
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.work-desc {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+
+
+.center-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.feedback-section {
+    padding: 120px 10%;
+    max-width: 1000px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.text-center {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.feedback-form-container {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 60px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.modern-form {
+    display: flex;
+    flex-direction: column;
+    gap: 50px; /* Lots of breathing room */
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+@media (max-width: 768px) {
+    .form-row { grid-template-columns: 1fr; }
+    .captcha-wrapper { flex-direction: column; align-items: flex-start !important; }
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.input-wrapper input,
+.input-wrapper textarea {
+    width: 100%;
+    padding: 10px 0;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #E2E8F0;
+    font-size: 1.1rem;
+    font-family: var(--font-sans);
+    color: var(--text-main);
+    transition: border-color 0.3s ease;
+    resize: vertical;
+}
+
+.input-wrapper textarea {
+    min-height: 100px;
+}
+
+.input-wrapper input:focus,
+.input-wrapper textarea:focus {
+    outline: none;
+    border-bottom-color: var(--text-main); /* Dark contrast line on focus */
+}
+
+/* Floating Labels */
+.input-wrapper label {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    pointer-events: none;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.input-wrapper input:focus ~ label,
+.input-wrapper input:not(:placeholder-shown) ~ label,
+.input-wrapper textarea:focus ~ label,
+.input-wrapper textarea:not(:placeholder-shown) ~ label {
+    top: -20px;
+    font-size: 0.75rem;
+    color: var(--pastel-blue); /* Pastel pop when typing */
+}
+
+/* --- CAPTCHA Styles --- */
+.captcha-wrapper {
+    display: flex;
+    align-items: flex-end;
+    gap: 30px;
+}
+
+.captcha-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #FAFAFA;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px dashed var(--text-muted);
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.icon-btn:hover { transform: rotate(180deg); }
+
+/* --- Submit Button --- */
+.submit-wrapper {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.submit-btn {
+    font-size: 1rem;
+    letter-spacing: 2px;
+    padding: 18px 50px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+/* --- Toast Popups --- */
+.toast-popup {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    background-color: #ffffff;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 2000;
+    transform: translateX(150%);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.toast-popup.show { transform: translateX(0); opacity: 1; }
+.success-toast { border-left: 6px solid var(--pastel-green); }
+.error-toast { border-left: 6px solid #E53E3E; }
+.popup-icon { font-size: 1.5rem; }
+.popup-text { font-size: 1rem; font-weight: 700; color: var(--text-main); }
+
+/* ==========================================
+   --- SMART RESPONSIVE TWEAKS ---
+   ========================================== */
+
+/* Ensure scrollable sections can actually grow */
+.certificates-section,
+.feedback-section {
+    height: auto; 
+}
+
+/* Ensure massive titles don't break the layout on smaller laptop screens (under 800px height) */
+@media (max-height: 800px) {
+    .section-massive-title {
+        font-size: clamp(40px, 6vw, 70px);
+        margin-bottom: 20px;
+    }
+    .massive-heading {
+        font-size: clamp(50px, 7vw, 85px);
+    }
+    .about-text p {
+        font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+        line-height: 1.6;
+    }
+}
+
+/* ==========================================
+   --- PREMIUM DYNAMIC ANIMATIONS ---
+   ========================================== */
+
+/* Base settings for all animations */
+.anim-element {
+    opacity: 0;
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: opacity, transform;
+}
+
+/* 1. Slide Up (From Bottom) */
+.anim-up { transform: translateY(40px); }
+
+/* 2. Slide Right (From Left to Right) */
+.anim-left { transform: translateX(-50px); }
+
+/* 3. Slide Left (From Right to Left) */
+.anim-right { transform: translateX(50px); }
+
+/* 4. Soft Zoom In */
+.anim-zoom { transform: scale(0.95); }
+
+/* The Active State (When they enter the screen) */
+.anim-element.is-visible {
+    opacity: 1;
+    transform: translate(0) scale(1);
+}
+
+/* Delays to make them stagger nicely */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+
+/* --- Thank You Greeting --- */
+.thank-you-block {
+    text-align: center;
+    padding: 60px 20px;
+    animation: slideUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.thank-you-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.thank-you-title {
+    font-size: 2.5rem;
+    color: var(--text-main);
+    margin-bottom: 15px;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.thank-you-text {
+    color: var(--text-muted);
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.reset-btn {
+    background: transparent;
+    border: 2px solid var(--text-main);
+    color: var(--text-main);
+    transition: all 0.3s ease;
+}
+
+.reset-btn:hover {
+    background: var(--text-main);
+    color: #ffffff;
+}
+
+/* --- Modal & PDF Adjustments --- */
+.modal-content {
+    background-color: var(--bg-color);
+    margin: 5% auto;
+    /* Top padding badha di hai taaki button ke liye theek se jagah ban sake */
+    padding: 55px 20px 20px 20px; 
+    border-radius: 12px;
+    width: 85%;
+    max-width: 1000px;
+    height: 85vh; 
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Premium Close Button --- */
+.close-modal {
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
+    background-color: var(--text-main); /* Dark background */
+    color: #ffffff; /* White text */
+    border-radius: 50%; /* Perfectly round */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    line-height: 1; /* Keeps the X perfectly centered */
+}
+
+.close-modal:hover {
+    background-color: #ff4d4d; /* Hover karne par soft red ho jayega */
+    transform: scale(1.1) rotate(90deg); /* Hover effect me thoda ghumega */
+}
+
+/* Container holding the iframe */
+#modal-body {
+    flex-grow: 1; 
+    width: 100%;
+}
+
+/* The actual PDF viewer frame */
+.pdf-frame {
+    width: 100%;
+    height: 100%; 
+    border: none;
+    border-radius: 8px;
+    background-color: #fff;
+    display: block; 
+}
+
+/* ==========================================
+   --- FOOTER ---
+   ========================================== */
+.site-footer {
+    text-align: center;
+    padding: 40px 20px 100px 20px; /* Bottom padding extra di hai taaki navigation pill se takraye na */
+    background-color: transparent;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
